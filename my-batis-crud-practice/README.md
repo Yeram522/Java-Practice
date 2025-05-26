@@ -54,9 +54,37 @@ SQL 쿼리와 결과 매핑을 정의
 
 
 ### 3. DTO 작성
-조회한 컬럼과 DTO를 매핑시켜 사용하기 위해 BookDTO를 작성합니다.
+조회한 컬럼과 DTO를 매핑시켜 사용하기 위해 BookDTO를 작성한다.
+```java
+public class BookDTO {
+    private int bookCode;
+    private String bookName;
+    private int authorCode;
+    private int publishYear;
+    private int bookPrice;
+    private String isbn;
+    private String etc;
 
-db는 다음과 같다.
+    // 기본 생성자
+    public BookDTO() {}
+
+    // getter/setter 메서드들
+    public int getBookCode() { return bookCode; }
+    public void setBookCode(int bookCode) { this.bookCode = bookCode; }
+    
+    public String getBookName() { return bookName; }
+    public void setBookName(String bookName) { this.bookName = bookName; }
+    
+    public int getAuthorCode() { return authorCode; }
+    public void setAuthorCode(int authorCode) { this.authorCode = authorCode; }
+    
+    // ... 나머지 getter/setter
+}
+```
+<br>
+
+`mysql db`
+
 ![img.png](readme-resources/db-img.png)
 
 ### 4. template(SqlSession 관리)
