@@ -223,4 +223,4 @@ Application → Controller → Service → DAO → MyBatis Mapper → Database
 **DAO**: 데이터 접근 로직<br>
 **Mapper**: SQL 쿼리 정의
 
-![img.png](readme-resources/diagram.png)
+![img.png](readme-resources/img.png)
