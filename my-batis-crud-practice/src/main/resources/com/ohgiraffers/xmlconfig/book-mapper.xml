@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BookMapper">
+    <resultMap id = "bookResultMap" type = "com.ohgiraffers.xmlconfig.BookDTO">
+        <id property = "bookCode" column="book_code"/>
+        <result property="bookName" column="book_name"/>
+        <result property="authorCode" column="author_code"/>
+        <result property="publishYear" column="publish_year"/>
+        <result property="bookPrice" column="book_price"/>
+        <result property="isbn" column="ISBN"/>
+        <result property="etc" column="ETC"/>
+    </resultMap>
+
+    <select id = "selectAllBook" resultMap = "bookResultMap">
+        SELECT
+               BOOK_CODE
+             , BOOK_NAME
+             , AUTHOR_CODE
+             , PUBLISH_YEAR
+             , BOOK_PRICE
+             , ISBN
+             , ETC
+        FROM PRODUCT_LIST
+        ORDER BY BOOK_CODE
+    </select>
+
+    <select id = "selectMenuByCode" parameterType="_int" resultMap="bookResultMap">
+        SELECT
+        BOOK_CODE
+        , BOOK_NAME
+        , AUTHOR_CODE
+        , PUBLISH_YEAR
+        , BOOK_PRICE
+        , ISBN
+        , ETC
+        FROM PRODUCT_LIST
+        WHERE BOOK_CODE = #{ code }
+    </select>
+
+    <insert id="insertBook" parameterType="com.ohgiraffers.xmlconfig.BookDTO">
+        INSERT INTO PRODUCT_LIST
+        (
+            BOOK_NAME
+          , AUTHOR_CODE
+          , PUBLISH_YEAR
+          , BOOK_PRICE
+          , ISBN
+        )
+        VALUES
+        (
+            #{ bookName }
+          , #{ authorCode }
+          , #{ publishYear }
+          , #{ bookPrice }
+          , #{ isbn }
+        )
+    </insert>
+    
+    <update id="updateBook" parameterType="com.ohgiraffers.xmlconfig.BookDTO">
+        UPDATE PRODUCT_LIST
+           SET BOOK_NAME = #{ bookName }
+             , AUTHOR_CODE = #{ authorCode }
+             , PUBLISH_YEAR = #{ publishYear }
+             , BOOK_PRICE = #{ bookPrice }
+          WHERE BOOK_CODE = #{ bookCode }
+    </update>
+
+    <delete id = "deleteBook" parameterType="_int">
+        DELETE
+          FROM PRODUCT_LIST
+         WHERE BOOK_CODE = #{ bookCode }
+    </delete>
+
+</mapper>
