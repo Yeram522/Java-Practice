@@ -12,11 +12,11 @@ public class BookService {
 
     public BookService(){ bookDAO = new BookDAO();}
 
-    public List<BookDTO> selectAllBook(){
+    public List<BookAndAuthorDTO> selectAllBook(){
 
         SqlSession sqlSession = getSqlSession();
 
-        List<BookDTO> bookList = bookDAO.selectAllBook(sqlSession);
+        List<BookAndAuthorDTO> bookList = bookDAO.selectAllBook(sqlSession);
 
         sqlSession.close();
 

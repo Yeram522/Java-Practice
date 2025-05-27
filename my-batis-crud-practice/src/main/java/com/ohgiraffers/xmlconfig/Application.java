@@ -80,26 +80,44 @@ public class Application {
 
     private static  Map<String, String> inputModifyBook() {
         Scanner sc = new Scanner(System.in);
-
+        boolean trigger = true;
 
         System.out.print("수정할 도서의 코드를 입력해주세요. : ");
         String code = sc.nextLine();
+        String price = null;
+        String etc= null;
 
-        System.out.println("수정할 도서의 제목을 입력해주세요. :");
-        String name = sc.nextLine();
-        System.out.println("수정할 도서의 작가 코드 입력해주세요. :");
-        String authorCode = sc.nextLine();
-        System.out.println("수정할 도서의 출판 년도 입력해주세요. :");
-        String pubYear = sc.nextLine();
-        System.out.println("수정할 도서의 가격을 입력해주세요. :");
-        String price = sc.nextLine();
+        do{
+            System.out.println("--------<수정할 속성을 선택해주세요>--------");
+            System.out.println("1. 도서 가격");
+            System.out.println("2. 도서 비고");
+            System.out.println("9. 수정 완료");
+
+            String select = sc.nextLine();
+
+            switch (Integer.parseInt(select)){
+                case 1:
+                    System.out.println("수정할 도서 가격을 입력해주세요.");
+                    price = sc.nextLine();
+                    break;
+                case 2:
+                    System.out.println("수정할 도서의 비고를 입력해주세요.");
+                    etc = sc.nextLine();
+                    break;
+                case 9:
+                    trigger = false;
+                    break;
+                default:
+                    System.out.println("잘못입력하셨습니다.");
+            }
+        }while (trigger);
+
+
 
         Map<String, String> parameter = new HashMap<>();
         parameter.put("bookCode", code);
-        parameter.put("name", name);
-        parameter.put("authorCode", authorCode);
-        parameter.put("pubYear", pubYear);
-        parameter.put("price", price);
+        parameter.put("etc", etc);
+        parameter.put("bookPrice", price);
 
         return parameter;
     }

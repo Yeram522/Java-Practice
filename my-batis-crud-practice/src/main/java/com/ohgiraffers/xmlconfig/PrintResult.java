@@ -4,12 +4,11 @@ import java.util.List;
 
 public class PrintResult {
 
-    public void printBookList(List<BookDTO> menuList){
-
-        for(BookDTO menu : menuList){
-            System.out.println(menu);
+    // comment. generic templete을 이용한 프린트 출력 메서드로 변경
+    public <T> void printBookList(List<T> list) {
+        for (T item : list) {
+            System.out.println(item);
         }
-
     }
 
     public void printBook(BookDTO menu) {

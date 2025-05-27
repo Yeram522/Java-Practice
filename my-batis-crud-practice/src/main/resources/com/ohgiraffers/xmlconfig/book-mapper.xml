@@ -13,17 +13,42 @@
         <result property="etc" column="ETC"/>
     </resultMap>
 
-    <select id = "selectAllBook" resultMap = "bookResultMap">
+    <!-- association 을 위한 map 추가 -->
+    <resultMap id="bookAndAuthorResultMap" type="com.ohgiraffers.xmlconfig.BookAndAuthorDTO">
+        <id property = "bookCode" column="book_code"/>
+        <result property="bookName" column="book_name"/>
+        <result property="publishYear" column="publish_year"/>
+        <result property="bookPrice" column="book_price"/>
+        <result property="isbn" column="ISBN"/>
+        <result property="etc" column="ETC"/>
+        <association property="author" javaType="com.ohgiraffers.xmlconfig.AuthorDTO">
+            <id property="id" column="author_id"/>
+            <result property="name" column="author_name"/>
+            <result property="awarded" column="awarded"/>
+        </association>
+    </resultMap>
+
+    <resultMap id="authorResultMap"  type="com.ohgiraffers.xmlconfig.AuthorDTO" autoMapping="false">
+        <id property="id" column="author_id"/>
+        <result property="name" column="author_name"/>
+    </resultMap>
+
+    <resultMap id="authorResultMapWithAwarded" type="com.ohgiraffers.xmlconfig.AuthorDTO" extends="authorResultMap">
+        <result property="awarded" column="awarded"/>
+    </resultMap>
+
+    <select id = "selectAllBook" resultMap = "bookAndAuthorResultMap">
         SELECT
-               BOOK_CODE
-             , BOOK_NAME
-             , AUTHOR_CODE
-             , PUBLISH_YEAR
-             , BOOK_PRICE
-             , ISBN
-             , ETC
-        FROM PRODUCT_LIST
-        ORDER BY BOOK_CODE
+               A.BOOK_CODE
+             , A.BOOK_NAME
+             , B.AUTHOR_NAME
+             , A.PUBLISH_YEAR
+             , A.BOOK_PRICE
+             , A.ISBN
+             , A.ETC
+        FROM PRODUCT_LIST A
+        JOIN AUTHOR_LIST B ON (A.AUTHOR_CODE = B.AUTHOR_ID)
+        ORDER BY A.BOOK_CODE
     </select>
 
     <select id = "selectMenuByCode" parameterType="_int" resultMap="bookResultMap">
@@ -59,12 +84,23 @@
     </insert>
     
     <update id="updateBook" parameterType="com.ohgiraffers.xmlconfig.BookDTO">
-        UPDATE PRODUCT_LIST
+        <!--UPDATE PRODUCT_LIST
            SET BOOK_NAME = #{ bookName }
              , AUTHOR_CODE = #{ authorCode }
              , PUBLISH_YEAR = #{ publishYear }
              , BOOK_PRICE = #{ bookPrice }
-          WHERE BOOK_CODE = #{ bookCode }
+          WHERE BOOK_CODE = #{ bookCode }-->
+        UPDATE
+              PRODUCT_LIST
+        <trim prefix="SET" prefixOverrides=",">
+            <if test="bookPrice != null and bookPrice != ''">
+                , BOOK_PRICE = #{bookPrice}
+            </if>
+            <if test="etc != null and etc != ''">
+                , ETC = #{etc}
+            </if>
+            WHERE BOOK_CODE = #{bookCode}
+        </trim>
     </update>
 
     <delete id = "deleteBook" parameterType="_int">

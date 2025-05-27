@@ -16,7 +16,7 @@ public class BookController {
 
     public void selectAllBook(){
 
-        List<BookDTO> menuList = bookService.selectAllBook();
+        List<BookAndAuthorDTO> menuList = bookService.selectAllBook();
 
         if(menuList != null){
             printResult.printBookList(menuList);
@@ -61,18 +61,15 @@ public class BookController {
     }
 
     public void modifyBook(Map<String, String> parameter) {
-        String name = parameter.get("name");
-        int price = Integer.parseInt(parameter.get("price"));
+        String etc = parameter.get("etc");
+        int price = Integer.parseInt(parameter.get("bookPrice"));
         int code = Integer.parseInt(parameter.get("bookCode"));
-        int year = Integer.parseInt(parameter.get("pubYear"));
-        int authorCode = Integer.parseInt(parameter.get("authorCode"));
+
 
         BookDTO book = new BookDTO();
         book.setBookCode(code);
-        book.setBookName(name);
-        book.setAuthorName(authorCode);
+        book.setBookName(etc);
         book.setBookPrice(price);
-        book.setPublishYear(year);
 
         if(bookService.modifyBook(book)){
             printResult.printSuccessMessage("insert");

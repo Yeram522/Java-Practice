@@ -6,7 +6,7 @@ import java.util.List;
 
 public class BookDAO {
 
-    public List<BookDTO> selectAllBook(SqlSession sqlSession){
+    public List<BookAndAuthorDTO> selectAllBook(SqlSession sqlSession){
         return sqlSession.selectList("BookMapper.selectAllBook");
     }
 
